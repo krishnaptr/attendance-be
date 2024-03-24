@@ -42,28 +42,28 @@ export class UserService {
   async registerUser(u: RegisterDto): Promise<User | string> {
     try {
       if (!u.password) {
-        return 'Please fill the password!';
+        return 'Tolong isi password!';
       }
 
       if (u.password !== u.passwordRepeat) {
-        return 'Password is not same!';
+        return 'Password tidak sama!';
       }
 
       if (!u.role || !['admin', 'user'].includes(u.role)) {
-        return 'Please fill the role!';
+        return 'Tolong isi role!';
       }
 
       if (!u.status) {
-        return 'Please fill the status!';
+        return 'Tolong isi status!';
       }
 
       if (!u.username) {
-        return 'Please fill the username!';
+        return 'Tolong isi username!';
       }
 
       // Check username on database
       if (await this.isUsernameExist(u.username)) {
-        return 'Username already exist!';
+        return 'Username sudah ada!';
       }
 
       const data: any = u;
@@ -151,7 +151,7 @@ export class UserService {
       const rs = await oldData.save();
       return rs;
     }
-    throw new BadRequestException(`Data Not Found!`);
+    throw new BadRequestException(`Data tidak ditemukan!`);
   }
 
   async getByUsername(username: string): Promise<User> {

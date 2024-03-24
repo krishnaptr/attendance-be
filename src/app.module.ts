@@ -7,6 +7,7 @@ import { UserModule } from './module/user/user.module';
 import { AuthModule } from './module/auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule'
 import { AuthMiddleware } from './middleware/auth.middleware';
+import { PegawaiModule } from './module/pegawai/pegawai.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env' }),
@@ -23,7 +24,8 @@ import { AuthMiddleware } from './middleware/auth.middleware';
         }),
         ScheduleModule.forRoot(),
         UserModule,
-        AuthModule
+        AuthModule,
+        PegawaiModule
   ],
   controllers: [AppController],
   providers: [AppService],

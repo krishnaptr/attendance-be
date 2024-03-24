@@ -35,6 +35,7 @@
     "@types/passport": "^1.0.7",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
+    "@supercharge/fs": "^3.4.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "axios": "^0.27.2",
