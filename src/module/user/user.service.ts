@@ -39,6 +39,19 @@ export class UserService {
     return false;
   }
 
+  async validateUserLogin(login: LoginDto): Promise<User | boolean> {
+    const rs = await User.findOne({ where: { username: login.username } });
+    if (!!rs) {
+      const isValid = bcrypt.compareSync(login.password, rs.credential);
+      if (isValid) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
   async registerUser(u: RegisterDto): Promise<User | string> {
     try {
       if (!u.password) {
@@ -120,10 +133,10 @@ export class UserService {
     });
 
     // EXCLUDE THE USER DATA IF THE SAME WITH USER THAT LOGGED IN
-    // OR IT CAN BE DISABLED LATER
-    const newData = data.rows.filter((item: any)=> {
-      return item.id !== id
-    })
+    // OR IT CAN BE REMOVED LATER
+    const newData = data.rows.filter((item: any) => {
+      return item.id !== id;
+    });
     const page = Math.ceil(data.count / params.limit);
     return { count: Number(data.count), pages: page, rows: newData };
   }

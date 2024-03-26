@@ -7,6 +7,6 @@ export class LoginDto {
     username: string
 
     @IsNotEmpty()
-    @ApiProperty({ example: 'Your$ecr3tPass' })
+    @ApiProperty({ example: 'pass' })
     password: string
 }

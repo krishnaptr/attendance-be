@@ -10,11 +10,10 @@ import helmet from "helmet";
 const pkg = require('./../package.json')
 
 async function bootstrap() {
-	const app = await NestFactory.create<NestExpressApplication>(AppModule)
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {cors: true})
 	app.useGlobalPipes(new ValidationPipe())
 	app.useStaticAssets(join(__dirname, '..', process.env.STATIC_ASSET))
-	app.enableCors({ credentials: true, origin: true });
-	app.use(helmet())
+	app.enableCors();
 	if (process.env.SHOW_SWAGGER_API === 'true') {
 		const options = new DocumentBuilder()
 			.setTitle('Attendance NFC')
