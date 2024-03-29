@@ -56,30 +56,29 @@ export class UserService {
   }
 
   async registerUser(u: RegisterDto): Promise<User | string> {
-    try {
       if (!u.password) {
-        return 'Tolong isi password!';
+       throw new BadRequestException(`Tolong isi password!`);
       }
 
       if (u.password !== u.passwordRepeat) {
-        return 'Password tidak sama!';
+        throw new BadRequestException(`Password tidak sama!`);
       }
 
-      if (!u.role || !['admin', 'user'].includes(u.role)) {
-        return 'Tolong isi role!';
+      if (!u.role.includes(u.role)) {
+        throw new BadRequestException(`Tolong isi role!`);
       }
 
-      if (!u.status) {
-        return 'Tolong isi status!';
+      if (u.status === null || u.status === undefined) {
+        throw new BadRequestException(`Tolong isi status!`);
       }
 
       if (!u.username) {
-        return 'Tolong isi username!';
+        throw new BadRequestException(`Tolong isi username!`);
       }
 
       // Check username on database
       if (await this.isUsernameExist(u.username)) {
-        return 'Username sudah ada!';
+        throw new BadRequestException(`Username Sudah Ada!`);
       }
 
       const data: any = u;
@@ -89,10 +88,6 @@ export class UserService {
       await user.save();
       user.setDataValue('credential', null);
       return user;
-    } catch (e) {
-      console.error(e);
-      return e.toString();
-    }
   }
 
   async updateStatus(id: number): Promise<User> {
@@ -141,7 +136,7 @@ export class UserService {
       return item.id !== id;
     });
     const page = Math.ceil(data.count / params.limit);
-    return { count: Number(data.count), page: page, rows: newData };
+    return { count: Number(data.count), page: page, rows: data.rows };
   }
 
   async updateUser(params: UpdateUserDto) {

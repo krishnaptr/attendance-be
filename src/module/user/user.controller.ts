@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Patch,
+  Post,
   Put,
   Query,
   Request,
@@ -29,6 +30,7 @@ import {
 } from 'src/library/swagger-response';
 import { UserGuard } from './user.guard';
 import UserListDto from './dto/user-list.dto';
+import { RegisterDto } from './dto/register.dto';
 @ApiTags('User API')
 @ApiResponse({
   status: HttpStatus.BAD_REQUEST,
@@ -56,6 +58,22 @@ export class UserController {
   async profile(@Res({ passthrough: true }) res: Response) {
     const result = await this.userService.getProfile(res.locals.tokenData.id);
     return response(200, result, 'ok');
+  }
+
+  @Post('/register')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Success Response',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not Found',
+    type: CustomApiNotFoundResponse(),
+  })
+  async registerNewUser(@Body() body: RegisterDto) {
+    const result = await this.userService.registerUser(body);
+    return response(result, 'Success', HttpStatus.OK);
   }
 
   @Put('/update')

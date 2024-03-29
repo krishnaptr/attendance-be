@@ -11,7 +11,7 @@ export class RegisterDto {
     passwordRepeat: string
 
     @IsNotEmpty()
-    @ApiProperty({ enum: ['admin','user']})
+    @ApiProperty({ enum: ['Admin','User']})
     role: string
 
     @IsNotEmpty()
