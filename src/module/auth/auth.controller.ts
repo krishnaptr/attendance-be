@@ -30,11 +30,10 @@ export class AuthController {
   })
   @Post('/login')
   async login(@Body() body: LoginDto) {
+    console.log(body);
     const data = await this.sUser.validate(body);
     if (!!data) {
       return responseOk(data);
-    } else {
-      return responseBad('Wrong username/password!');
     }
   }
 
@@ -45,8 +44,8 @@ export class AuthController {
   async validate(@Body() body: LoginDto) {
     const data = await this.sUser.validateUserLogin(body);
     return Object.assign({
-      valid: data
-    })
+      valid: data,
+    });
   }
 
   @ApiOperation({

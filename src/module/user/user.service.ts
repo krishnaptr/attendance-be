@@ -24,6 +24,9 @@ export class UserService {
 
   async validate(login: LoginDto): Promise<User | boolean> {
     const rs = await User.findOne({ where: { username: login.username } });
+    if (rs && !rs.status) {
+      throw new BadRequestException('Akun tidak aktif, tidak dapat login menggunakan akun ini!');
+    }
     if (!!rs) {
       const isValid = bcrypt.compareSync(login.password, rs.credential);
       if (isValid) {
@@ -36,7 +39,7 @@ export class UserService {
       }
     }
 
-    return false;
+    throw new BadRequestException('Username/Password Salah');
   }
 
   async validateUserLogin(login: LoginDto): Promise<User | boolean> {
@@ -138,7 +141,7 @@ export class UserService {
       return item.id !== id;
     });
     const page = Math.ceil(data.count / params.limit);
-    return { count: Number(data.count), pages: page, rows: newData };
+    return { count: Number(data.count), page: page, rows: newData };
   }
 
   async updateUser(params: UpdateUserDto) {
