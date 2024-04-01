@@ -43,9 +43,7 @@ export class AuthController {
   @Post('/validate')
   async validate(@Body() body: LoginDto) {
     const data = await this.sUser.validateUserLogin(body);
-    return Object.assign({
-      valid: data,
-    });
+    return Object.assign({data: {'valid': data}});
   }
 
   @ApiOperation({

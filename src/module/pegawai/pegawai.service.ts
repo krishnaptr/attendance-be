@@ -36,7 +36,7 @@ export class PegawaiService {
             id: { [Op.substring]: params.search },
           },
           {
-            Pegawainame: { [Op.substring]: params.search },
+            namaPegawai: { [Op.substring]: params.search },
           },
         ],
       });
@@ -59,7 +59,7 @@ export class PegawaiService {
       limit: Number(params.limit),
     });
     const page = Math.ceil(data.count / params.limit);
-    return { count: Number(data.count), pages: page, rows: data.rows };
+    return { count: Number(data.count), page: page, rows: data.rows };
   }
 
   async addPegawai(params: PegawaiAddDto, imageData: any): Promise<any> {

@@ -55,6 +55,13 @@ export class Pegawai extends Model<Pegawai> {
 
     @ApiProperty()
     @Column({
+        type: DataType.ENUM('FO', 'BAAK', 'Ruang Dosen'),
+        defaultValue: 'FO',
+    })
+    lokasiAbsen: 'FO' | 'BAAK' | 'Ruang Dosen'
+
+    @ApiProperty()
+    @Column({
         type: DataType.ENUM('Laki-Laki', 'Perempuan'),
         defaultValue: 'Laki-Laki',
     })
